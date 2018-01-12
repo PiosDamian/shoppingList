@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lista zakupów</string>
+    <string name="name">Nazwa</string>
+    <string name="amount">Ilość</string>
+    <string name="price">Cena</string>
+    <string name="add">+</string>
+    <string name="total">Razem</string>
+    <string name="currency">zł</string>
+</resources>

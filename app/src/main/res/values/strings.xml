@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">shoppingList</string>
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="price">Price</string>
+    <string name="add">+</string>
+    <string name="total">Total</string>
+    <string name="currency">$</string>
+</resources>

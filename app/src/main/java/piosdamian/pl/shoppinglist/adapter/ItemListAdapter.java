@@ -1,5 +1,6 @@
 package piosdamian.pl.shoppinglist.adapter;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -51,15 +53,21 @@ public class ItemListAdapter extends BaseAdapter {
 
         Item item = (Item) getItem(position);
 
-        TextView name = (TextView) convertView.findViewById((R.id.item_name));
+        EditText name = (EditText) convertView.findViewById((R.id.item_name));
         name.setText(item.getName());
 
-        TextView amount = (TextView) convertView.findViewById(R.id.item_amount);
+        name.setOnFocusChangeListener((v, hasFocus) -> {
+            Toast.makeText(v.getContext(), Integer.toString(v.getId()), Toast.LENGTH_LONG).show();
+        });
+
+        EditText amount = (EditText) convertView.findViewById(R.id.item_amount);
         amount.setText(Double.toString(item.getAmount()));
 
-        TextView price = (TextView) convertView.findViewById(R.id.item_price);
+        EditText price = (EditText) convertView.findViewById(R.id.item_price);
         price.setText(Double.toString(item.getPrice()));
 
         return convertView;
     }
+
+
 }

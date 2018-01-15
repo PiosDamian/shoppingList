@@ -38,10 +38,6 @@ public class MainActivity extends AppCompatActivity{
         ListView itemList = (ListView) findViewById(R.id.body);
         adapter = new ItemListAdapter(getLayoutInflater());
         itemList.setAdapter(adapter);
-        itemList.setOnItemClickListener((parent, view, position, id) -> {
-            Item item = (Item) parent.getAdapter().getItem(position);
-            Toast.makeText(view.getContext(), Double.toString(item.getAmount()), Toast.LENGTH_LONG).show();
-        });
         addItem();
     }
 }

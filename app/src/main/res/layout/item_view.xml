@@ -12,7 +12,7 @@
         android:layout_margin="3dp"
         android:background="#ffffff">
 
-        <TextView
+        <EditText
             android:id="@+id/item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
             android:inputType="text"
             android:singleLine="true" />
 
-        <TextView
+        <EditText
             android:id="@+id/item_amount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:gravity="right"
             android:inputType="number|numberSigned|numberDecimal" />
 
-        <TextView
+        <EditText
             android:id="@+id/item_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

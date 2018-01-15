@@ -7,4 +7,6 @@
     <string name="add">+</string>
     <string name="total">Razem</string>
     <string name="currency">zł</string>
+    <string name="save">Zapisz</string>
+    <string name="cancel">Anuluj</string>
 </resources>

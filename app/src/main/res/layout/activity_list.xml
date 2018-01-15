@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="piosdamian.pl.shoppinglist.MainActivity">
+    android:id="@+id/main"
+    android:background="@color/grey"
+    tools:context="piosdamian.pl.shoppinglist.ListActivity">
 
     <LinearLayout
         android:id="@+id/header"
@@ -65,13 +67,15 @@
     </LinearLayout>
 
     <ListView
-        android:id ="@+id/body"
+        android:id="@+id/body"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header"></ListView>
@@ -80,42 +84,41 @@
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/add_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/body">
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/total_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="8"
-            android:ems="10"
-            android:inputType="none"
-            android:text="@string/total"
             android:background="@null"
             android:clickable="false"
             android:cursorVisible="false"
+            android:ems="10"
             android:focusable="false"
-            android:focusableInTouchMode="false"/>
+            android:focusableInTouchMode="false"
+            android:inputType="none"
+            android:text="@string/total" />
 
         <EditText
             android:id="@+id/total_amount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:ems="10"
-            android:inputType="text"
-            android:gravity="right"
-            android:text="@string/currency"
             android:background="@null"
             android:clickable="false"
             android:cursorVisible="false"
+            android:ems="10"
             android:focusable="false"
-            android:focusableInTouchMode="false"/>
+            android:focusableInTouchMode="false"
+            android:gravity="right"
+            android:inputType="text"
+            android:text="@string/currency" />
     </LinearLayout>
 
     <Button
@@ -129,6 +132,6 @@
         android:onClick="addItem"
         android:text="@string/add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/footer" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

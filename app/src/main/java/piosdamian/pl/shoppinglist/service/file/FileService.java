@@ -1,10 +1,8 @@
 package piosdamian.pl.shoppinglist.service.file;
 
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -52,11 +50,20 @@ public class FileService {
     public void addFile(String name) {
         files.add(name);
         FileHandler.saveToFile(context, FILES, files);
+        String[] files = context.getFilesDir().list();
+        for(String file: files) {
+            Log.d("file", file);
+        }
     }
 
     public void removeFile(int pos) {
+        context.deleteFile(files.get(pos));
         files.remove(pos);
         FileHandler.saveToFile(context, FILES, files);
+        String[] files = context.getFilesDir().list();
+        for(String file: files) {
+            Log.d("file", file);
+        }
     }
 
     public boolean checkIfEquals(String name) {

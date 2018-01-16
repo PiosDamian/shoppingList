@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 
 import piosdamian.pl.shoppinglist.adapter.FileListAdapter;
 import piosdamian.pl.shoppinglist.service.file.FileService;
-import piosdamian.pl.shoppinglist.service.item.ItemService;
 
 /**
  * Created by Damian Pioś on 16.01.2018.

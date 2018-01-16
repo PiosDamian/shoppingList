@@ -1,15 +1,12 @@
 package piosdamian.pl.shoppinglist.service.file;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import piosdamian.pl.shoppinglist.service.item.Item;

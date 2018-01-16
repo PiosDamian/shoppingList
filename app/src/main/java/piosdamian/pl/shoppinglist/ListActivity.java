@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 

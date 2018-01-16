@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Observable;
 
-import piosdamian.pl.shoppinglist.service.item.Item;
-
 /**
  * Created by Damian Pioś on 11.01.2018.
  */

@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="grey">#f0f0f0</color>
+    <color name="btnSuccess">#5CB860</color>
+    <color name="btnDanger">#d95252</color>
+    <color name="btnWarning">#eb9732</color>
+    <color name="bought">#9d99cc00</color>
 </resources>

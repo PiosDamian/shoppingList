@@ -1,7 +1,8 @@
 package piosdamian.pl.shoppinglist.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,26 +14,26 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import piosdamian.pl.shoppinglist.R;
-import piosdamian.pl.shoppinglist.model.Item;
-import piosdamian.pl.shoppinglist.service.ItemService;
+import piosdamian.pl.shoppinglist.service.item.Item;
+import piosdamian.pl.shoppinglist.service.item.ItemService;
 
 /**
- * Created by infinite on 12.01.2018.
+ * Created by Damian Pioś on 12.01.2018.
  */
 
 public class ItemListAdapter extends BaseAdapter {
-    private ItemService items = ItemService.getInstance();
+    private ItemService items;
     private LayoutInflater mInflater;
+    private Button btnBought, btnRemove;
 
-    TextView name, amount, price;
-
+    private TextView tvName, tvAmount, tvPrice;
 
     public ItemListAdapter(LayoutInflater inflater) {
         super();
         mInflater = inflater;
+        items = ItemService.getInstance();
     }
 
     @Override
@@ -58,23 +59,42 @@ public class ItemListAdapter extends BaseAdapter {
 
         Item item = (Item) getItem(position);
 
-        name = (TextView) convertView.findViewById(R.id.item_name);
-        name.setText(item.getName());
-        name.setOnClickListener(view -> {
+        btnBought = (Button) convertView.findViewById(R.id.button_done);
+        btnBought.setOnClickListener(v -> {
+            View container = (View) v.getParent().getParent();
+            items.updateBoughtState(position, !items.get(position).isBought());
+            notifyDataSetChanged();
+        });
+
+        btnRemove = (Button) convertView.findViewById(R.id.button_remove);
+        btnRemove.setOnClickListener(v -> {
+            items.removeItem(item.getId());
+            notifyDataSetChanged();
+        });
+
+        tvName = (TextView) convertView.findViewById(R.id.item_name);
+        tvName.setText(item.getName());
+        tvName.setOnClickListener(view -> {
             showPopup((int) getItemId(position), view, parent);
         });
 
-        amount = (TextView) convertView.findViewById(R.id.item_amount);
-        amount.setText(Double.toString(item.getAmount()));
-        amount.setOnClickListener(view -> {
+        tvAmount = (TextView) convertView.findViewById(R.id.item_amount);
+        tvAmount.setText(Double.toString(item.getAmount()));
+        tvAmount.setOnClickListener(view -> {
             showPopup((int) getItemId(position), view, parent);
         });
 
-        price = (TextView) convertView.findViewById(R.id.item_price);
-        price.setText(Double.toString(item.getPrice()));
-        price.setOnClickListener(view -> {
+        tvPrice = (TextView) convertView.findViewById(R.id.item_price);
+        tvPrice.setText(Double.toString(item.getPrice()));
+        tvPrice.setOnClickListener(view -> {
             showPopup((int) getItemId(position), view, parent);
         });
+
+        if(items.get(position).isBought()) {
+            convertView.setBackgroundColor(ContextCompat.getColor(convertView.getContext(), R.color.bought));
+        } else {
+            convertView.setBackgroundColor(Color.TRANSPARENT);
+        }
 
         return convertView;
     }

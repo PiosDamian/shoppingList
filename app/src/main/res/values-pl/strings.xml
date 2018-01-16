@@ -4,9 +4,13 @@
     <string name="name">Nazwa</string>
     <string name="amount">Ilość</string>
     <string name="price">Cena</string>
-    <string name="add">+</string>
     <string name="total">Razem</string>
     <string name="currency">zł</string>
     <string name="save">Zapisz</string>
     <string name="cancel">Anuluj</string>
+    <string name="bought">Kupione</string>
+    <string name="remove">Usuń</string>
+    <string name="new_list">Nowa Lista</string>
+    <string name="name_exist">Nazwa istnieje. Wybierz inną.</string>
+    <string name="not_ewerything_bought">Na tej liście są nie zakupione przedmioty. Na pewno chcesz ją usunąć?</string>
 </resources>

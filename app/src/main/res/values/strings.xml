@@ -3,9 +3,14 @@
     <string name="name">Name</string>
     <string name="amount">Amount</string>
     <string name="price">Price</string>
-    <string name="add">+</string>
+    <string name="add" translatable="false">+</string>
     <string name="total">Total</string>
     <string name="currency">$</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="bought">Bought</string>
+    <string name="remove">Remove</string>
+    <string name="new_list">New List</string>
+    <string name="name_exist">Name already exist. Choose diffrent one.</string>
+    <string name="not_ewerything_bought">There are not purchased items on this list. Are you sure you want to delete it?</string>
 </resources>

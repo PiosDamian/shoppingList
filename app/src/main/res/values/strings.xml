@@ -13,4 +13,6 @@
     <string name="new_list">New List</string>
     <string name="name_exist">Name already exist. Choose diffrent one.</string>
     <string name="not_ewerything_bought">There are not purchased items on this list. Are you sure you want to delete it?</string>
+    <string name="add_word">Add</string>
+    <string name="wrong_number_format">Wrong number format</string>
 </resources>

@@ -65,7 +65,7 @@ public class Item implements Serializable{
         return bought;
     }
 
-    public void setBought(boolean bought) {
+    void setBought(boolean bought) {
         this.bought = bought;
     }
 }

@@ -1,11 +1,14 @@
 package piosdamian.pl.shoppinglist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.Observable;
@@ -18,11 +21,10 @@ import piosdamian.pl.shoppinglist.service.item.ItemService;
 
 public class ListActivity extends AppCompatActivity implements Observer {
     private ItemService items;
-    ItemListAdapter adapter;
-    TextView total;
-    ListView itemsList;
+    private ItemListAdapter adapter;
+    private TextView total;
+    private RecyclerView itemsList;
     private String listName;
-
 
     public ListActivity() {
         items = ItemService.getInstance();
@@ -44,21 +46,17 @@ public class ListActivity extends AppCompatActivity implements Observer {
 
         Intent intent = getIntent();
         listName = intent.getStringExtra(MainActivity.FILE);
+        setTitle(listName);
 
-
-        total = (TextView) findViewById(R.id.total_amount);
-        itemsList = (ListView) findViewById(R.id.body);
-
-        if(savedInstanceState != null) {
-            return;
-        }
-
-        adapter = new ItemListAdapter(getLayoutInflater());
+        itemsList = (RecyclerView) findViewById(R.id.body);
+        itemsList.setHasFixedSize(true);
+        itemsList.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ItemListAdapter();
         itemsList.setAdapter(adapter);
 
-        if (intent.getStringExtra(MainActivity.FILE) != null) {
-            items.setItems(FileHandler.readFromFile(ListActivity.this, intent.getStringExtra(MainActivity.FILE)));
-        } else {
+        total = (TextView) findViewById(R.id.total_amount);
+        items.setItems(FileHandler.readFromFile(ListActivity.this, listName));
+        if (items.getItems().size() == 0) {
             addItem();
         }
     }
@@ -77,8 +75,12 @@ public class ListActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o == items && total != null) {
-            total.setText(Double.toString(items.getTotal()) + getString(R.string.currency));
+            setTotal();
         }
+    }
+
+    private void setTotal() {
+        total.setText(String.format("%.02f", items.getTotal()).toString() + getString(R.string.currency));
     }
 
     @Override

@@ -49,10 +49,12 @@ public class ItemService extends Observable {
 
     public void setItems(List items) {
         this.items = items;
+        countTotal();
     }
 
     public void removeItem(int id) {
         items.remove(id);
+        countTotal();
     }
 
     public void clearList() {

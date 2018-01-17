@@ -1,17 +1,20 @@
 package piosdamian.pl.shoppinglist.adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import piosdamian.pl.shoppinglist.R;
+import piosdamian.pl.shoppinglist.observer.Observer;
 import piosdamian.pl.shoppinglist.service.file.FileHandler;
 import piosdamian.pl.shoppinglist.service.file.FileService;
 import piosdamian.pl.shoppinglist.service.item.ItemService;
@@ -20,29 +23,30 @@ import piosdamian.pl.shoppinglist.service.item.ItemService;
  * Created by Damian Pioś on 16.01.2018.
  */
 
-public class FileListAdapter extends BaseAdapter {
+public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileCardViewHolder> {
     private FileService files;
-    private ItemService items;
-    private LayoutInflater mInflater;
     private Context context;
 
-    public FileListAdapter (LayoutInflater inflater, Context context) {
+    ArrayList<Observer> observers = new ArrayList<>();
+
+    public FileListAdapter(Context context) {
         super();
-        this.mInflater = inflater;
         this.context = context;
-        this.files = FileService.getInstance(context);
-        this.items = ItemService.getInstance();
+        this.files = FileService.getInstance(this.context);
+    }
+    @Override
+    public FileCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.file_view, parent, false);
+        FileCardViewHolder vh = new FileCardViewHolder(v);
+        return vh;
     }
 
-
     @Override
-    public int getCount() {
-        return files.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return files.getFile(position);
+    public void onBindViewHolder(FileCardViewHolder holder, int position) {
+        holder.setCard(files.getFile(position), position, this);
+        holder.itemView.setOnClickListener(v -> {
+            notify(position);
+        });
     }
 
     @Override
@@ -51,61 +55,83 @@ public class FileListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.file_view, parent, false);
+    public int getItemCount() {
+        return files.size();
+    }
+
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    private void notify(int pos) {
+        for (Observer o: observers) {
+            o.update(pos);
+        }
+    }
+
+
+
+    public static class FileCardViewHolder extends RecyclerView.ViewHolder {
+        private Context context;
+        private TextView fileName;
+        private Button remove;
+
+        private FileCardViewHolder(ConstraintLayout itemView) {
+            super(itemView);
+            this.context = itemView.getContext();
+            fileName = (TextView) itemView.findViewById(R.id.file_name);
+            remove = (Button) itemView.findViewById(R.id.remove_list);
         }
 
-        TextView tvFileName = (TextView) convertView.findViewById(R.id.file_name);
-        tvFileName.setText(files.getFile(position));
-
-        Button removeFile = (Button) convertView.findViewById(R.id.remove_list);
-        View finalConvertView = convertView;
-        removeFile.setOnClickListener(v -> {
-            if (checkIfSafeRemove(files.getFile(position))) {
-                removeFile(position);
-            } else {
-                createDialog(position);
-            }
-        });
 
 
+        private void setCard(String name, int pos, RecyclerView.Adapter adapter) {
+            fileName.setText(name);
+            remove.setOnClickListener(v -> {
+                if(checkIfSafeRemove(name)) {
+                    removeFile(pos, adapter);
+                } else {
+                    createDialog(pos, adapter);
+                }
+            });
+        }
 
-        return convertView;
-    }
+        private boolean checkIfSafeRemove(String filename) {
+            ItemService items = ItemService.getInstance();
+            items.setItems(FileHandler.readFromFile(context, filename));
+            boolean boughtEverything = items.checkIfAllBought();
+            items.clearList();
+            return boughtEverything;
+        }
 
-    private boolean checkIfSafeRemove(String filename) {
-        items.setItems(FileHandler.readFromFile(context, filename));
-        boolean boughtEverything = items.checkIfAllBought();
-        items.clearList();
-        return boughtEverything;
-    }
+        private void removeFile(int pos, RecyclerView.Adapter adapter) {
+            FileService.getInstance(context).removeFile(pos);
+            adapter.notifyDataSetChanged();
+        }
 
-    private void removeFile(int pos) {
-        files.removeFile(pos);
-        notifyDataSetChanged();
-    }
+        private void createDialog(int pos, RecyclerView.Adapter adapter) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage(R.string.not_ewerything_bought).setTitle(R.string.remove);
 
-    private void createDialog(int pos) {
-        AlertDialog.Builder builder = new AlertDialog.Builder((Activity) context);
-        builder.setMessage(R.string.not_ewerything_bought).setTitle(R.string.remove);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    removeFile(pos, adapter);
+                    dialog.dismiss();
+                }
+            });
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                removeFile(pos);
-                dialog.dismiss();
-            }
-        });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_light));
+            dialog.getButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, android.R.color.holo_orange_dark));
+        }
     }
 }

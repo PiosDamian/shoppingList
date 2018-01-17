@@ -1,8 +1,8 @@
 package piosdamian.pl.shoppinglist.service.file;
 
 import android.content.Context;
-import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,11 +10,10 @@ import java.util.List;
  */
 
 public class FileService {
-    private static final String FILES = "files.json";
     private static FileService service;
     private Context context;
 
-    List<String> files;
+    ArrayList<String> files;
 
     private FileService() {}
 
@@ -26,7 +25,7 @@ public class FileService {
 
     public static FileService getInstance(Context context) {
         if (service == null) {
-            service = new FileService(context.getApplicationContext());
+            service = new FileService(context);
         }
         return service;
     }
@@ -44,26 +43,18 @@ public class FileService {
     }
 
     public void setFiles() {
-        files = FileHandler.filesList(context, FILES);
+        files = new ArrayList<>(FileHandler.filesList(context));
     }
 
     public void addFile(String name) {
         files.add(name);
-        FileHandler.saveToFile(context, FILES, files);
-        String[] files = context.getFilesDir().list();
-        for(String file: files) {
-            Log.d("file", file);
-        }
+        FileHandler.saveToFile(context, name, new ArrayList<>());
+
     }
 
     public void removeFile(int pos) {
         context.deleteFile(files.get(pos));
         files.remove(pos);
-        FileHandler.saveToFile(context, FILES, files);
-        String[] files = context.getFilesDir().list();
-        for(String file: files) {
-            Log.d("file", file);
-        }
     }
 
     public boolean checkIfEquals(String name) {

@@ -20,7 +20,8 @@ import piosdamian.pl.shoppinglist.service.item.Item;
 public class FileHandler {
 
     private static final String DIR = "lists/";
-    public static void saveToFile(Context context, String fileName, List<?> content) {
+    public static void saveToFile(Context context, String fileName, List<?> con) {
+        List<?> content = new ArrayList<>(con);
         Thread t = new Thread(() ->{
             try {
                 FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);

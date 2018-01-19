@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileCa
     }
     @Override
     public FileCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ConstraintLayout v = (ConstraintLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.file_view, parent, false);
+        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.file_view, parent, false);
         FileCardViewHolder vh = new FileCardViewHolder(v);
         return vh;
     }
@@ -76,7 +77,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileCa
         private TextView fileName;
         private Button remove;
 
-        private FileCardViewHolder(ConstraintLayout itemView) {
+        private FileCardViewHolder(LinearLayout itemView) {
             super(itemView);
             this.context = itemView.getContext();
             fileName = (TextView) itemView.findViewById(R.id.file_name);

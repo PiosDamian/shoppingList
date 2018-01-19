@@ -3,7 +3,6 @@ package piosdamian.pl.shoppinglist;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,9 +57,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.name);
 
-        final EditText input = new EditText(MainActivity.this);
+        final EditText input = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_input, null).findViewById(R.id.dialog_input);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.getBackground().mutate().setColorFilter(ContextCompat.getColor(MainActivity.this, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         builder.setView(input);
 
         builder.setPositiveButton(R.string.add_word, new DialogInterface.OnClickListener() {
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Object arg) {
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra(FILE, files.getFile((Integer)arg));
+        intent.putExtra(FILE, files.getFile((Integer) arg));
         startActivity(intent);
     }
 }

@@ -3,10 +3,9 @@ package piosdamian.pl.shoppinglist.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import piosdamian.pl.shoppinglist.R;
 import piosdamian.pl.shoppinglist.service.item.Item;
@@ -35,7 +33,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
         super();
         this.items = ItemService.getInstance();
     }
-
 
     @Override
     public ItemCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -69,18 +66,20 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
             price = (TextView) itemView.findViewById(R.id.item_price);
             bought = (Button) itemView.findViewById(R.id.button_item_done);
             remove = (Button) itemView.findViewById(R.id.button_item_remove);
-            itemView.findViewById(R.id.edit_area).setBackgroundColor(Color.TRANSPARENT);
         }
 
         private void setCard(int position, ItemListAdapter adapter) {
             Item item = items.get(position);
 
-            View card = itemView.findViewById(R.id.item_layout);
+            View card = itemView.findViewById(R.id.item_card);
+            View editArea = itemView.findViewById(R.id.edit_area);
 
             if (item.isBought()) {
                 card.setBackgroundColor(ContextCompat.getColor(card.getContext(), R.color.bought));
+                editArea.setBackgroundColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(card.getContext(), R.color.bought), 50));
             } else {
-                card.setBackgroundColor(Color.TRANSPARENT);
+                card.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                editArea.setBackgroundColor(Color.TRANSPARENT);
             }
 
             name.setText(item.getName());
@@ -113,14 +112,10 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
             Context context = view.getContext();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            EditText input = new EditText(context);
-            input.getBackground().mutate().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+            EditText input = LayoutInflater.from(context).inflate(R.layout.dialog_input, null).findViewById(R.id.dialog_input);
 
             int viewId = view.getId();
             Item item = items.get(position);
-
-            input.setSelectAllOnFocus(true);
-            input.setSingleLine(true);
 
             switch (viewId) {
                 case R.id.item_name:

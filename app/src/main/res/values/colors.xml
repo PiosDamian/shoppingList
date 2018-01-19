@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#C62828</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorItem">#000000</color>
+
     <color name="grey">#f0f0f0</color>
     <color name="btnSuccess">#5CB860</color>
     <color name="btnDanger">#d95252</color>

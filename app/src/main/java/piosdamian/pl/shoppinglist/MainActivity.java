@@ -8,13 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import piosdamian.pl.shoppinglist.adapter.FileListAdapter;
@@ -29,14 +30,21 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
     public final static String FILE = "file";
 
-    private FileListAdapter adapter;
     private Button btnNewList;
     private FileService files;
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
+
+
         files = FileService.getInstance(MainActivity.this);
         files.setFiles();
 
@@ -57,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.name);
 
-        final EditText input = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_input, null).findViewById(R.id.dialog_input);
+        AppCompatEditText input = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_input, null).findViewById(R.id.dialog_input);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 

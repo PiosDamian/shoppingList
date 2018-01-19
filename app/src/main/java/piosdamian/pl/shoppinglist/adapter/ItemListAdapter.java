@@ -1,11 +1,11 @@
 package piosdamian.pl.shoppinglist.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.ColorUtils;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -72,14 +71,14 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
             Item item = items.get(position);
 
             View card = itemView.findViewById(R.id.item_card);
-            View editArea = itemView.findViewById(R.id.edit_area);
+//            View editArea = itemView.findViewById(R.id.edit_area);
 
             if (item.isBought()) {
                 card.setBackgroundColor(ContextCompat.getColor(card.getContext(), R.color.bought));
-                editArea.setBackgroundColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(card.getContext(), R.color.bought), 50));
+//                editArea.setBackgroundColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(card.getContext(), R.color.bought), 50));
             } else {
                 card.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                editArea.setBackgroundColor(Color.TRANSPARENT);
+//                editArea.setBackgroundColor(Color.TRANSPARENT);
             }
 
             name.setText(item.getName());
@@ -112,7 +111,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
             Context context = view.getContext();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            EditText input = LayoutInflater.from(context).inflate(R.layout.dialog_input, null).findViewById(R.id.dialog_input);
+            AppCompatEditText input = LayoutInflater.from(context).inflate(R.layout.dialog_input, null).findViewById(R.id.dialog_input);
 
             int viewId = view.getId();
             Item item = items.get(position);

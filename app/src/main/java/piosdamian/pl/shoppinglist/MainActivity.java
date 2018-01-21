@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -63,11 +64,12 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
     private void popupWindow(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.name);
 
+        TextInputLayout inputArea = (TextInputLayout) findViewById(R.id.input_area);
         AppCompatEditText input = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_input, null).findViewById(R.id.dialog_input);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        input.setHint(R.string.name);
+        builder.setView(inputArea);
 
         builder.setPositiveButton(R.string.add_word, new DialogInterface.OnClickListener() {
             @Override

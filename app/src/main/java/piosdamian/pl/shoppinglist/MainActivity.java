@@ -1,24 +1,23 @@
 package piosdamian.pl.shoppinglist;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
         toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-
 
 
         files = FileService.getInstance(MainActivity.this);
@@ -77,27 +75,19 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
         builder.setView(dialogInput);
 
-        builder.setPositiveButton(R.string.add_word, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!files.checkIfEquals(input.getText().toString())) {
-                    Intent intent = new Intent(context, ListActivity.class);
-                    intent.putExtra(FILE, input.getText().toString());
-                    files.addFile(input.getText().toString());
-                    dialog.dismiss();
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(context.getApplicationContext(), getString(R.string.name_exist), Toast.LENGTH_LONG).show();
-                }
+        builder.setPositiveButton(R.string.add_word, (dialog, which) -> {
+            if (!files.checkIfEquals(input.getText().toString())) {
+                Intent intent = new Intent(context, ListActivity.class);
+                intent.putExtra(FILE, input.getText().toString());
+                files.addFile(input.getText().toString());
+                dialog.dismiss();
+                startActivity(intent);
+            } else {
+                Toast.makeText(context.getApplicationContext(), getString(R.string.name_exist), Toast.LENGTH_LONG).show();
             }
         });
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
 
         AlertDialog dialog = builder.create();
         dialog.show();

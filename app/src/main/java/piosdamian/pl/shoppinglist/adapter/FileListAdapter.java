@@ -1,16 +1,13 @@
 package piosdamian.pl.shoppinglist.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -114,20 +111,12 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileCa
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setMessage(R.string.not_ewerything_bought).setTitle(R.string.remove);
 
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    removeFile(pos, adapter);
-                    dialog.dismiss();
-                }
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                removeFile(pos, adapter);
+                dialog.dismiss();
             });
 
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
 
             AlertDialog dialog = builder.create();
             dialog.show();

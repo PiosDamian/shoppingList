@@ -116,6 +116,7 @@ public class ListActivity extends AppCompatActivity implements Observer {
 
     private void setTotal() {
         total.post(() -> {
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
             total.setText(String.format("%.02f", items.getTotal()).toString() + getString(R.string.currency));
         });
     }

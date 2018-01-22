@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -73,14 +74,14 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileCa
 
     public static class FileCardViewHolder extends RecyclerView.ViewHolder {
         private Context context;
-        private TextView fileName;
-        private Button remove;
+        private AppCompatButton fileName;
+        private AppCompatButton remove;
 
         private FileCardViewHolder(LinearLayout itemView) {
             super(itemView);
             this.context = itemView.getContext();
-            fileName = (TextView) itemView.findViewById(R.id.file_name);
-            remove = (Button) itemView.findViewById(R.id.remove_list);
+            fileName = itemView.findViewById(R.id.file_name);
+            remove = itemView.findViewById(R.id.remove_list);
         }
 
 

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F44336</color>
-    <color name="colorPrimaryDark">#C62828</color>
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#2E7D32</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="lightGreen">#66bb6a</color>
+    <color name="lightRed">#ef5350</color>
+    <color name="lightOrange">#FFCC80</color>
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorItem">#000000</color>
 
@@ -10,5 +13,8 @@
     <color name="btnSuccess">#5CB860</color>
     <color name="btnDanger">#d95252</color>
     <color name="btnWarning">#eb9732</color>
-    <color name="bought">#4e99cc00</color>
+    <color name="bought">#C8E6C9</color>
+
+    <color name="gradientStart">#42f0f0f0</color>
+    <color name="gradientStop">#f0f0f0</color>
 </resources>

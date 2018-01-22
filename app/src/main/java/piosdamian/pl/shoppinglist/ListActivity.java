@@ -30,7 +30,6 @@ public class ListActivity extends AppCompatActivity implements Observer {
     private String listName;
 
     private Toolbar toolbar;
-    private Menu menu;
 
     public ListActivity() {
         items = ItemService.getInstance();
@@ -73,17 +72,27 @@ public class ListActivity extends AppCompatActivity implements Observer {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_list, this.menu);
+        getMenuInflater().inflate(R.menu.menu_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        for (String s : files.getFiles()) {
+            if (s.equals(listName))
+                continue;
+            menu.add(0, Menu.FIRST, Menu.NONE, s);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-//        Intent intent = new Intent(this, ListActivity.class);
-//        intent.putExtra(MainActivity.FILE, files.getFile(item.getItemId()));
-//        startActivity(intent);
+        Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra(MainActivity.FILE, item.getTitle());
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
 
@@ -106,7 +115,9 @@ public class ListActivity extends AppCompatActivity implements Observer {
     }
 
     private void setTotal() {
-        total.setText(String.format("%.02f", items.getTotal()).toString() + getString(R.string.currency));
+        total.post(() -> {
+            total.setText(String.format("%.02f", items.getTotal()).toString() + getString(R.string.currency));
+        });
     }
 
     @Override

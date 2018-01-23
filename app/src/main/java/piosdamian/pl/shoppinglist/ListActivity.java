@@ -1,15 +1,21 @@
 package piosdamian.pl.shoppinglist;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -19,6 +25,8 @@ import piosdamian.pl.shoppinglist.service.file.FileHandler;
 import piosdamian.pl.shoppinglist.service.file.FileService;
 import piosdamian.pl.shoppinglist.service.item.Item;
 import piosdamian.pl.shoppinglist.service.item.ItemService;
+
+import static android.view.MotionEvent.actionToString;
 
 public class ListActivity extends AppCompatActivity implements Observer {
     private ItemService items;
@@ -43,12 +51,13 @@ public class ListActivity extends AppCompatActivity implements Observer {
         items.setItems(FileHandler.readFromFile(ListActivity.this, name));
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_list);
+        toolbar = findViewById(R.id.toolbar_list);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,13 +66,13 @@ public class ListActivity extends AppCompatActivity implements Observer {
         listName = intent.getStringExtra(MainActivity.FILE);
         setTitle(listName);
 
-        itemsList = (RecyclerView) findViewById(R.id.body);
+        itemsList = findViewById(R.id.body);
         itemsList.setHasFixedSize(true);
         itemsList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ItemListAdapter();
         itemsList.setAdapter(adapter);
 
-        total = (TextView) findViewById(R.id.total_amount);
+        total = findViewById(R.id.total_amount);
         items.setItems(FileHandler.readFromFile(ListActivity.this, listName));
         if (items.getItems().size() == 0) {
             addItem();

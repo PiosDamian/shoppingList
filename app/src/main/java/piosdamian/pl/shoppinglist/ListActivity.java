@@ -1,21 +1,16 @@
 package piosdamian.pl.shoppinglist;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.view.MotionEventCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -26,18 +21,16 @@ import piosdamian.pl.shoppinglist.service.file.FileService;
 import piosdamian.pl.shoppinglist.service.item.Item;
 import piosdamian.pl.shoppinglist.service.item.ItemService;
 
-import static android.view.MotionEvent.actionToString;
-
 public class ListActivity extends AppCompatActivity implements Observer {
     private ItemService items;
     private FileService files;
 
     private ItemListAdapter adapter;
-    private TextView total;
     private RecyclerView itemsList;
-    private String listName;
+    private NestedScrollView scrollView;
 
-    private Toolbar toolbar;
+    private TextView total;
+    private String listName;
 
     public ListActivity() {
         items = ItemService.getInstance();
@@ -51,16 +44,14 @@ public class ListActivity extends AppCompatActivity implements Observer {
         items.setItems(FileHandler.readFromFile(ListActivity.this, name));
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
-        toolbar = findViewById(R.id.toolbar_list);
-        setSupportActionBar(toolbar);
-
+        setSupportActionBar(findViewById(R.id.toolbar_list));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        scrollView = findViewById(R.id.itemScrollView);
 
         Intent intent = getIntent();
         listName = intent.getStringExtra(MainActivity.FILE);
@@ -71,6 +62,7 @@ public class ListActivity extends AppCompatActivity implements Observer {
         itemsList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ItemListAdapter();
         itemsList.setAdapter(adapter);
+        itemsList.setNestedScrollingEnabled(false);
 
         total = findViewById(R.id.total_amount);
         items.setItems(FileHandler.readFromFile(ListActivity.this, listName));
@@ -105,6 +97,13 @@ public class ListActivity extends AppCompatActivity implements Observer {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == items && total != null) {
+            setTotal();
+        }
+    }
+
     public void addItem(View view) {
         addItem();
     }
@@ -114,13 +113,10 @@ public class ListActivity extends AppCompatActivity implements Observer {
         items.add(item);
         adapter.notifyDataSetChanged();
         itemsList.smoothScrollToPosition(items.getItems().size());
-    }
+        scrollView.post(() -> {
+            scrollView.smoothScrollTo(0, scrollView.getBottom());
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o == items && total != null) {
-            setTotal();
-        }
+        });
     }
 
     private void setTotal() {
@@ -131,8 +127,14 @@ public class ListActivity extends AppCompatActivity implements Observer {
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onPause() {
-        super.onPause();
         FileHandler.saveToFile(ListActivity.this, listName, items.getItems());
+        super.onPause();
     }
 }

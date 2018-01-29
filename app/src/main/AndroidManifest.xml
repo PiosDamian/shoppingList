@@ -3,9 +3,9 @@
     package="piosdamian.pl.shoppinglist">
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/format_list"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/format_list_round"
         android:supportsRtl="true"
         android:configChanges="keyboardHidden|orientation|screenSize"
         android:theme="@style/AppTheme">

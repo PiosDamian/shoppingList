@@ -15,6 +15,7 @@
     <color name="btnWarning">#eb9732</color>
     <color name="bought">#C8E6C9</color>
 
-    <color name="gradientStart">#42f0f0f0</color>
+    <color name="gradientStart">#82f0f0f0</color>
+    <color name="gradientCenter">#d1f0f0f0</color>
     <color name="gradientStop">#f0f0f0</color>
 </resources>

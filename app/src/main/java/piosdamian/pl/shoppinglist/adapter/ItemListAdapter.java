@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ import piosdamian.pl.shoppinglist.service.item.ItemService;
  */
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCardViewHolder> {
-
     private ItemService items;
 
     public ItemListAdapter() {
@@ -43,6 +43,10 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
     @Override
     public void onBindViewHolder(ItemCardViewHolder holder, int position) {
         holder.setCard(position, this);
+    }
+
+    public void setScrollEnabled(boolean enabled){
+        this.setScrollEnabled(enabled);
     }
 
     @Override

@@ -106,4 +106,10 @@ public class MainActivity extends AppCompatActivity implements Observer {
         intent.putExtra(FILE, files.getFile((Integer) arg));
         startActivity(intent);
     }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+        super.onBackPressed();
+    }
 }

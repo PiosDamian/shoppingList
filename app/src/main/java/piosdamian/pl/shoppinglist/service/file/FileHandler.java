@@ -2,6 +2,7 @@ package piosdamian.pl.shoppinglist.service.file;
 
 import android.content.Context;
 import android.os.Process;
+import android.support.annotation.NonNull;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -51,7 +52,7 @@ public class FileHandler {
         return list;
     }
 
-    static List<String> filesList(Context context) {
+    static List<String> filesList(@NonNull Context context) {
         List<String> list;
         list = Arrays.asList(context.getFilesDir().list());
         return list;

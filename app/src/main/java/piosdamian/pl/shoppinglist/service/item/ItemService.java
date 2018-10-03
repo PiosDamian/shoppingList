@@ -11,7 +11,7 @@ import java.util.Observable;
 
 public class ItemService extends Observable {
 
-    static ItemService itemService;
+    private static ItemService itemService;
     private double total = 0;
     private List<Item> items = new ArrayList<>();
 
@@ -88,9 +88,7 @@ public class ItemService extends Observable {
 
     private void countTotal() {
         total = 0;
-        Iterator<Item> itr = items.iterator();
-        while (itr.hasNext()) {
-            Item tmp = itr.next();
+        for (Item tmp : items) {
             total += tmp.getAmount() * tmp.getPrice();
         }
         registerChanges();

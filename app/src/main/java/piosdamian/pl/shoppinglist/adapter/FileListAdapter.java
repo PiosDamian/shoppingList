@@ -1,6 +1,7 @@
 package piosdamian.pl.shoppinglist.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
@@ -25,26 +26,24 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileCa
     private FileService files;
     private Context context;
 
-    ArrayList<Observer> observers = new ArrayList<>();
+    private ArrayList<Observer> observers = new ArrayList<>();
 
     public FileListAdapter(Context context) {
         super();
         this.context = context;
         this.files = FileService.getInstance(this.context);
     }
+    @NonNull
     @Override
-    public FileCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FileCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.file_view, parent, false);
-        FileCardViewHolder vh = new FileCardViewHolder(v);
-        return vh;
+        return new FileCardViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(FileCardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FileCardViewHolder holder, int position) {
         holder.setCard(files.getFile(position), position, this);
-        holder.itemView.setOnClickListener(v -> {
-            notify(position);
-        });
+        holder.itemView.setOnClickListener(v -> notify(position));
     }
 
     @Override
@@ -69,7 +68,7 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileCa
 
 
 
-    public static class FileCardViewHolder extends RecyclerView.ViewHolder {
+    static class FileCardViewHolder extends RecyclerView.ViewHolder {
         private Context context;
         private AppCompatButton fileName;
         private AppCompatButton remove;

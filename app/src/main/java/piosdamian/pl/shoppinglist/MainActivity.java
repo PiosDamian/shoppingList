@@ -19,6 +19,8 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import piosdamian.pl.shoppinglist.adapter.FileListAdapter;
 import piosdamian.pl.shoppinglist.observer.Observer;
 import piosdamian.pl.shoppinglist.service.file.FileService;
@@ -31,27 +33,22 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
     public final static String FILE = "file";
 
-    private AppCompatButton btnNewList;
     private FileService files;
-
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.toolbar_main);
+        Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
 
         files = FileService.getInstance(MainActivity.this);
         files.setFiles();
 
-        btnNewList = findViewById(R.id.btn_new_list);
-        btnNewList.setOnClickListener(v -> {
-            popupWindow(v.getContext());
-        });
+        AppCompatButton btnNewList = findViewById(R.id.btn_new_list);
+        btnNewList.setOnClickListener(v -> popupWindow(v.getContext()));
 
         RecyclerView filesList = findViewById(R.id.files_list);
         filesList.setHasFixedSize(true);
@@ -91,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         dialog.show();
         input.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             }
         });
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(MainActivity.this, R.color.lightGreen));

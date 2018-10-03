@@ -2,13 +2,13 @@ package piosdamian.pl.shoppinglist.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+
+import java.util.Objects;
 
 import piosdamian.pl.shoppinglist.R;
 import piosdamian.pl.shoppinglist.service.item.Item;
@@ -33,20 +35,16 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
         this.items = ItemService.getInstance();
     }
 
+    @NonNull
     @Override
-    public ItemCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemCardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view, parent, false);
-        ItemCardViewHolder vh = new ItemCardViewHolder(v);
-        return vh;
+        return new ItemCardViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ItemCardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemCardViewHolder holder, int position) {
         holder.setCard(position, this);
-    }
-
-    public void setScrollEnabled(boolean enabled){
-        this.setScrollEnabled(enabled);
     }
 
     @Override
@@ -54,7 +52,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
         return items.getItems().size();
     }
 
-    public static class ItemCardViewHolder extends RecyclerView.ViewHolder {
+    static class ItemCardViewHolder extends RecyclerView.ViewHolder {
         private AppCompatButton name, amount, price, bought, remove;
         private ItemService items;
         private View itemView;
@@ -82,19 +80,13 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
             }
 
             name.setText(item.getName());
-            name.setOnClickListener(view -> {
-                showPopup(position, view, adapter);
-            });
+            name.setOnClickListener(view -> showPopup(position, view, adapter));
 
             amount.setText(String.format("%.02f", item.getAmount()));
-            amount.setOnClickListener(view -> {
-                showPopup(position, view, adapter);
-            });
+            amount.setOnClickListener(view -> showPopup(position, view, adapter));
 
             price.setText(String.format("%.02f", item.getPrice()));
-            price.setOnClickListener(view -> {
-                showPopup(position, view, adapter);
-            });
+            price.setOnClickListener(view -> showPopup(position, view, adapter));
 
             bought.setOnClickListener(v -> {
                 items.updateBoughtState(position, !items.get(position).isBought());
@@ -162,14 +154,12 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
             }
 
             builder.setView(dialogInput);
-            builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
-                dialog.dismiss();
-            });
+            builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss());
 
             AlertDialog dialog = builder.create();
             input.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus) {
-                    dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    Objects.requireNonNull(dialog.getWindow()).setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 }
             });
             dialog.show();

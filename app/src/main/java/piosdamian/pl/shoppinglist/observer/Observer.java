@@ -5,5 +5,5 @@ package piosdamian.pl.shoppinglist.observer;
  */
 
 public interface Observer {
-    public void update(Object arg);
+    void update(Object arg);
 }

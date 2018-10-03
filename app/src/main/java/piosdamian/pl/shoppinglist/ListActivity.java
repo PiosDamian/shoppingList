@@ -9,9 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -49,7 +49,7 @@ public class ListActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         setSupportActionBar(findViewById(R.id.toolbar_list));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         scrollView = findViewById(R.id.itemScrollView);
 
@@ -113,16 +113,13 @@ public class ListActivity extends AppCompatActivity implements Observer {
         items.add(item);
         adapter.notifyDataSetChanged();
         itemsList.smoothScrollToPosition(items.getItems().size());
-        scrollView.post(() -> {
-            scrollView.smoothScrollTo(0, scrollView.getBottom());
-
-        });
+        scrollView.post(() -> scrollView.smoothScrollTo(0, scrollView.getBottom()));
     }
 
     private void setTotal() {
         total.post(() -> {
             android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-            total.setText(String.format("%.02f", items.getTotal()).toString() + getString(R.string.currency));
+            total.setText(String.format("%.02f", items.getTotal()) + getString(R.string.currency));
         });
     }
 

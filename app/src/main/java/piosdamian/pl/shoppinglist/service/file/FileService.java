@@ -13,7 +13,7 @@ public class FileService {
     private static FileService service;
     private Context context;
 
-    ArrayList<String> files;
+    private ArrayList<String> files;
 
     private FileService() {}
 

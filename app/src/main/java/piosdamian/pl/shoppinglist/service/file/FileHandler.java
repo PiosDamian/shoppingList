@@ -1,6 +1,5 @@
 package piosdamian.pl.shoppinglist.service.file;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Process;
 
@@ -52,9 +51,9 @@ public class FileHandler {
         return list;
     }
 
-    public static List<String> filesList(Context context) {
+    static List<String> filesList(Context context) {
         List<String> list;
-        list = Arrays.asList(((Activity) context).getFilesDir().list());
+        list = Arrays.asList(context.getFilesDir().list());
         return list;
     }
 }

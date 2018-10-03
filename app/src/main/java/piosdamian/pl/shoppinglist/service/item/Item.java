@@ -13,7 +13,7 @@ public class Item implements Serializable{
     private double price;
     private boolean bought;
 
-    public Item() {    }
+    private Item() {}
 
     public Item(int id, String name, double amount, double price) {
         this();

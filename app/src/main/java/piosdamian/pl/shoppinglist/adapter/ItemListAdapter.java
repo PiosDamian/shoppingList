@@ -3,18 +3,19 @@ package piosdamian.pl.shoppinglist.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import piosdamian.pl.shoppinglist.R;
 import piosdamian.pl.shoppinglist.service.item.Item;
@@ -25,7 +26,6 @@ import piosdamian.pl.shoppinglist.service.item.ItemService;
  */
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCardViewHolder> {
-
     private ItemService items;
 
     public ItemListAdapter() {
@@ -45,14 +45,17 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
         holder.setCard(position, this);
     }
 
+    public void setScrollEnabled(boolean enabled){
+        this.setScrollEnabled(enabled);
+    }
+
     @Override
     public int getItemCount() {
         return items.getItems().size();
     }
 
     public static class ItemCardViewHolder extends RecyclerView.ViewHolder {
-        private TextView name, amount, price;
-        private Button bought, remove;
+        private AppCompatButton name, amount, price, bought, remove;
         private ItemService items;
         private View itemView;
 
@@ -60,25 +63,22 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
             super(itemView);
             items = ItemService.getInstance();
             this.itemView = itemView;
-            name = (TextView) itemView.findViewById(R.id.item_name);
-            amount = (TextView) itemView.findViewById(R.id.item_amount);
-            price = (TextView) itemView.findViewById(R.id.item_price);
-            bought = (Button) itemView.findViewById(R.id.button_item_done);
-            remove = (Button) itemView.findViewById(R.id.button_item_remove);
+            name = itemView.findViewById(R.id.item_name);
+            amount = itemView.findViewById(R.id.item_amount);
+            price = itemView.findViewById(R.id.item_price);
+            bought = itemView.findViewById(R.id.button_item_done);
+            remove = itemView.findViewById(R.id.button_item_remove);
         }
 
         private void setCard(int position, ItemListAdapter adapter) {
             Item item = items.get(position);
 
             View card = itemView.findViewById(R.id.item_card);
-//            View editArea = itemView.findViewById(R.id.edit_area);
 
             if (item.isBought()) {
                 card.setBackgroundColor(ContextCompat.getColor(card.getContext(), R.color.bought));
-//                editArea.setBackgroundColor(ColorUtils.setAlphaComponent(ContextCompat.getColor(card.getContext(), R.color.bought), 50));
             } else {
                 card.setBackgroundColor(Color.parseColor("#FFFFFF"));
-//                editArea.setBackgroundColor(Color.TRANSPARENT);
             }
 
             name.setText(item.getName());
@@ -111,14 +111,18 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
             Context context = view.getContext();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-            AppCompatEditText input = LayoutInflater.from(context).inflate(R.layout.dialog_input, null).findViewById(R.id.dialog_input);
+            LinearLayout dialogInput = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.dialog_input, null);
+            TextInputLayout inputArea = dialogInput.findViewById(R.id.input_area);
+            TextInputEditText input = dialogInput.findViewById(R.id.dialog_input);
+
+            inputArea.setHint(context.getString(R.string.name));
 
             int viewId = view.getId();
             Item item = items.get(position);
 
             switch (viewId) {
                 case R.id.item_name:
-                    builder.setTitle(context.getString(R.string.name));
+                    inputArea.setHint(context.getString(R.string.name));
                     input.setText(item.getName());
                     input.setInputType(InputType.TYPE_CLASS_TEXT);
                     builder.setPositiveButton(R.string.save, (dialog, which) -> {
@@ -128,7 +132,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
                     });
                     break;
                 case R.id.item_amount:
-                    builder.setTitle(context.getString(R.string.amount));
+                    inputArea.setHint(context.getString(R.string.amount));
                     input.setText(Double.toString(item.getAmount()));
                     input.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     builder.setPositiveButton(R.string.save, (dialog, which) -> {
@@ -142,7 +146,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
                     });
                     break;
                 case R.id.item_price:
-                    builder.setTitle(context.getString(R.string.price));
+                    inputArea.setHint(context.getString(R.string.price));
                     input.setText(Double.toString(item.getPrice()));
                     input.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                     builder.setPositiveButton(R.string.save, (dialog, which) -> {
@@ -157,7 +161,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
                     break;
             }
 
-            builder.setView(input);
+            builder.setView(dialogInput);
             builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
                 dialog.dismiss();
             });
@@ -170,8 +174,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemCa
             });
             dialog.show();
 
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, android.R.color.holo_orange_dark));
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_light));
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(context, R.color.lightOrange));
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(context, R.color.lightGreen));
         }
 
         private boolean commaOccureMoreThanOneTime(String string) {

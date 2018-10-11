@@ -2,6 +2,7 @@ package piosdamian.pl.shoppinglist.service.file;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Process;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,10 +20,10 @@ import piosdamian.pl.shoppinglist.service.item.Item;
 
 public class FileHandler {
 
-    private static final String DIR = "lists/";
     public static void saveToFile(Context context, String fileName, List<?> con) {
         List<?> content = new ArrayList<>(con);
         Thread t = new Thread(() ->{
+            android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
             try {
                 FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
                 ObjectOutputStream oos = new ObjectOutputStream(fos);

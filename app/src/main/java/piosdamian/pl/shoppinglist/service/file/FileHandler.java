@@ -20,9 +20,9 @@ import piosdamian.pl.shoppinglist.service.item.Item;
 
 public class FileHandler {
 
-    public static void saveToFile(Context context, String fileName, List<?> con) {
+    public static void saveToFile(Context context, String fileName, List<Item> con) {
         List<?> content = new ArrayList<>(con);
-        Thread t = new Thread(() ->{
+        Thread t = new Thread(() -> {
             android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
             try {
                 FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -42,7 +42,7 @@ public class FileHandler {
         try {
             FileInputStream fis = context.openFileInput(fileName);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            list = (ArrayList<Item>) ois.readObject();
+            list = (List<Item>) ois.readObject();
             ois.close();
             fis.close();
 
@@ -53,8 +53,6 @@ public class FileHandler {
     }
 
     static List<String> filesList(@NonNull Context context) {
-        List<String> list;
-        list = Arrays.asList(context.getFilesDir().list());
-        return list;
+        return Arrays.asList(context.getFilesDir().list());
     }
 }

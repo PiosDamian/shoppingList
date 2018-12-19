@@ -58,11 +58,6 @@ public class FileService {
     }
 
     public boolean checkIfEquals(String name) {
-        for (String item: files) {
-            if (item.equals(name))
-                return true;
-        }
-        return false;
+        return files.stream().anyMatch(file -> file.equals(name));
     }
-
 }

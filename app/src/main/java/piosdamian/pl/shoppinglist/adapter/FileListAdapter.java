@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import piosdamian.pl.shoppinglist.R;
 import piosdamian.pl.shoppinglist.observer.Observer;
@@ -24,14 +25,12 @@ import piosdamian.pl.shoppinglist.service.item.ItemService;
 
 public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileCardViewHolder> {
     private FileService files;
-    private Context context;
 
-    private ArrayList<Observer> observers = new ArrayList<>();
+    private List<Observer> observers = new ArrayList<>();
 
     public FileListAdapter(Context context) {
         super();
-        this.context = context;
-        this.files = FileService.getInstance(this.context);
+        this.files = FileService.getInstance(context);
     }
     @NonNull
     @Override
@@ -65,8 +64,6 @@ public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.FileCa
             o.update(pos);
         }
     }
-
-
 
     static class FileCardViewHolder extends RecyclerView.ViewHolder {
         private Context context;

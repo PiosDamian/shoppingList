@@ -35,5 +35,4 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     compileOnly 'org.projectlombok:lombok:1.18.4'
-    compileOnly 'org.projectlombok:lombok:1.18.4'
 }
